@@ -198,25 +198,25 @@
                 return (
                     <div id="memoBoard" className="container">
                         <div className="container-fluid text-center">
-                            <h1>Memo Board</h1>
-                            <h4>Make it a note!</h4>
+                            <h1>Idea Dashboard</h1>
+                            <h4>Add New Idea!</h4>
                         </div>                            
                         <div className="container-fluid">
                             <div className="panel-group">
                                 <div className="panel panel-default">
-                                  <div className="panel-heading"><strong>Add New Note</strong></div>
+                                  <div className="panel-heading"><strong>Add New Idea</strong></div>
                                   <div className="panel-body">                                       
                                         <form className="form-horizontal" data-toggle="validator">
                                             <div className="form-group required">
                                                 <label className="control-label col-sm-2" htmlFor="title">Title:</label>
                                                 <div className="col-sm-10">
-                                                    <input type="text" className="form-control" id="title" maxLength="10" placeholder="Max 10 characters"  ref="addMemoTitle"/>
+                                                    <input type="text" className="form-control" id="title" maxLength="20" placeholder="Max 20 characters"  ref="addMemoTitle"/>
                                                 </div>
                                             </div>
                                             <div className="form-group required">
                                                 <label className="control-label col-sm-2" htmlFor="description">Description:</label>
                                                 <div className="col-sm-10">
-                                                    <textarea type="text" className="form-control" id="description" maxLength="140" placeholder="Max 140 characters" ref="addMemoBody" onChange={this.handleChange}></textarea>
+                                                    <textarea type="text" className="form-control" id="description" maxLength="200" placeholder="Max 200 characters" ref="addMemoBody" onChange={this.handleChange}></textarea>
                                                     <span className={this.state.leftChars < this.state.thresholdCharCount ? "danger" : "visuallyhidden"}>
                                                         <b>{this.state.leftChars} more character(s) allowed.</b>
                                                     </span>
@@ -264,9 +264,6 @@
                             </div>
                         </div>
                         <br />
-                        <footer className="container-fluid text-center">
-                            <p><strong>Author:</strong> <a target="_blank" href="https://facebook.com/asananddevsingh">Anand Dev Singh</a> | <a href="mailto:ananddevsingh.aiet@gmail.com">Email</a> | <a target="_blank" href="https://github.com/asananddevsingh/idea-board-With-Bootstrap">Source code</a></p>
-                        </footer>
                     </div>
                 );
             },
