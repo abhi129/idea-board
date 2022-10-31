@@ -16,29 +16,29 @@ body {
     background: #fff;
 }
 
-.memo-board .panel-primary {
+.idea-board .panel-primary {
     border: 1px solid #fff57b;
 }
 
-.memo-board .panel-heading {
-    background: url(../images/pin.png) no-repeat #fff57b;
+.idea-board .panel-heading {
+    background: no-repeat #fff57b;
     background-size: 40px;
     background-position: 50% 60%;
     color: #000;
-    border: 1px solid #fff57b;
+    border: 2px solid #fff57b;
 }
 
-.memo-board .panel-footer {
+.idea-board .panel-footer {
     background: #fff57b;
 }
 
-.memo-board .panel-body {
+.idea-board .panel-body {
     min-height: 125px;
     font-size: 15px;
     background: #faffbd;
 }
 
-.memo-board textarea {
+.idea-board textarea {
     min-height: 100px;
 }
 

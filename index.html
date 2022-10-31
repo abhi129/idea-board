@@ -36,7 +36,7 @@
             },
             renderContent: function(){
                 return (                    
-                       <div className="col-md-4 col-sm-6 col-xs-12 memo-board">
+                       <div className="col-md-4 col-sm-6 col-xs-12 idea-board">
                             <div className="panel panel-primary"  ref="deleteMemo"  onMouseEnter={this.showBin} onMouseLeave={this.hideBin}>
                                 <span className={ this.state.deleting ? "deleteMemo" : "visuallyhidden"} onClick={this.remove}  ref="deleteMemo" title="Delete memo"></span>  
                                {this.props.children} 
@@ -55,18 +55,18 @@
             },
             renderAddItemForm: function(){
                 return (                    
-                        <div className="col-md-4 col-sm-6 col-xs-12 memo-board">
+                        <div className="col-md-4 col-sm-6 col-xs-12 idea-board">
                             <div className="panel panel-primary">
                                 <div className="panel-heading">
-                                    <input type="text" className="form-control" id="title" maxLength="10" placeholder="Max 10 characters" 
+                                    <input type="text" className="form-control" id="title" maxLength="20" placeholder="Max 20 characters" 
                                     defaultValue={this.props.title} ref="newIdeaTitle"/>
                                 </div>
                                 <div className="panel-body">
-                                    <textarea type="text" className="form-control" id="title" maxLength="140" placeholder="Max 140 characters" 
+                                    <textarea type="text" className="form-control" id="title" maxLength="200" placeholder="Max 200 characters" 
                                         defaultValue={this.props.body} ref="newIdeaBody"></textarea>
                                 </div>
                                 <div className="panel-footer">
-                                    <botton className="btn btn-success btn-block" onClick={this.save}>Save</botton>
+                                    <botton className="btn btn-success btn-block" onClick={this.save}>Submit</botton>
                                 </div>
                             </div>
                         </div>
@@ -80,23 +80,24 @@
                 this.props.removeIdea(this.props.index);
             },
             save: function(){
-                this.props.updateMemo(this.refs.newIdeaTitle.value, this.refs.newIdeaBody.value, this.props.index);
+                //Add the idea
+                this.props.updateIdea(this.refs.newIdeaTitle.value, this.refs.newIdeaBody.value, this.props.index);
                 this.setState({editing: false});
             }
         });
         
         var Board = React.createClass({
             /*
-                We can make a service call from here to fetch the memo. For the time being, I'm creating a data array.
+                service call to fetch ideas.
             */
             getInitialState: function(){
                 return {
                     ideas: this.getInitialData(),
                     showMemoForm: false,
                     editingBody: false,
-                    maxAllowedChars: 140,
-                    leftChars: 140,
-                    thresholdCharCount: 15,
+                    maxAllowedChars: 200,
+                    leftChars: 200,
+                    thresholdCharCount: 20,
                     sortingValue : "select",
                     showAlert: false,
                 };
@@ -108,26 +109,24 @@
                 }
                 else{
                     return [
-                            { id: 7210810, created_date: "2016/08/22", title: "React"
-                             , body: "React is a JavaScript library for creating user interfaces by Facebook and Instagram. Many people choose to think of React as the V in MVC.."
+                            { id: 7210810, created_date: "2022/10/31", title: "React"
+                             , body: "React is a JavaScript library"
                             },
-                            { id: 7210811, created_date: "2016/08/23", title: "Node JS"
-                             , body: "In software dev, Node.js is an open source, cross platform runtime environment for developing server-side applications."
+                            { id: 7210811, created_date: "2022/10/31", title: "Node JS"
+                             , body: "Node.js is an open source for applications."
                             },
-                            { id: 7210900, created_date: "2015/04/14", title: "Angular"
-                             , body: "AngularJS is a very powerful JavaScript Framework, AngularJS extends HTML attributes with Directives, and binds data to HTML."
+                            { id: 7210900, created_date: "2022/10/31", title: "Angular"
+                             , body: "AngularJS is also a very popular Framework."
                             },
-                            { id: 7211010, created_date: "2014/10/15", title: "JavaScript"
-                             , body: "JavaScript is the programming language of HTML and the Web. Programming makes computers do what you want them to do."
+                            { id: 7211010, created_date: "2022/10/31", title: "JavaScript"
+                             , body: "JavaScript is the programming for Web."
                             }
                         ]
                 }
             },
             addMemo: function(){
-                /*
-                    We can make a POST service call from here to add the memo. For the time being, I'm adding it in the data array.
-                */
-                var ideas = this.state.ideas;
+                //Post call to add the idea
+                let ideas = this.state.ideas;
                 if (this.refs.addMemoTitle.value && this.refs.addMemoBody.value){
                     ideas.push(this.getIdAndCreatedDate());
                     this.refs.addMemoTitle.value = this.refs.addMemoBody.value = '';
@@ -136,7 +135,7 @@
                     localStorage.setItem('ideas', JSON.stringify(ideas));
                 }
                 else{
-                    alert('Please enter some values.')
+                    alert('Please enter something.')
                 }
             },
             hideAlert: function(context){
@@ -145,13 +144,9 @@
                     }, 4000)
             },
             getIdAndCreatedDate: function(){
-                /*
-                    For the time being; I'm implementing a fixed logic to create the ID and Created Date as I don't have service APIs.
-                    However service call can be made from here to fetch the data.
-                */
-                var date = new Date();
-                var newId = date.getMonth() + "" + date.getDate() + "" + date.getMinutes() + "" + date.getSeconds();
-                var createdDate = date.getUTCFullYear() + "/" + date.getUTCMonth() + "/" + date.getUTCDate();
+                let date = new Date();
+                let newId = date.getMonth() + "" + date.getDate() + "" + date.getMinutes() + "" + date.getSeconds();
+                let createdDate = date.getUTCFullYear() + "/" + date.getUTCMonth() + "/" + date.getUTCDate();
                 return {
                         id: newId,
                         created_date: createdDate,
@@ -160,9 +155,7 @@
                 }
             },
             removeIdea: function(i){
-                /*
-                    We can make a service call from here to remove the memo. For the time being, I'm removing it from the data array.
-                */
+                //Remove the idea
                 var arr = this.state.ideas;
                 arr.splice(i, 1);
                 this.setState({ideas: arr, showAlert: true});
@@ -175,12 +168,10 @@
                 this.hideAlert(this);
 
             },
-            updateMemo: function(newMemoTitle, newMemoBody, i){
-                /*
-                    We can make a service call from here to update the memo. For the time being, I'm updating the data array.
-                */
-                var arr = this.state.ideas;
-                var memoItems = arr[i];
+            updateIdea: function(newMemoTitle, newMemoBody, i) {
+                //This is used to update the idea  
+                let arr = this.state.ideas;
+                let memoItems = arr[i];
                 memoItems.title = newMemoTitle.trim();
                 memoItems.body = newMemoBody.trim();
                 arr[i] = memoItems;
@@ -190,9 +181,9 @@
             toggleMemoForm: function(){
                this.setState({showMemoForm: !this.state.showMemoForm});
             },
-            renderMemo: function(memo, i){
+            renderIdea: function(memo, i){
                 return (
-                    <Memo key={i} index={i} updateMemo={this.updateMemo}
+                    <Memo key={i} index={i} updateIdea={this.updateIdea}
                        removeIdea={this.removeIdea} title={memo.title} body={memo.body} >
                         <div className="panel-heading" ref="deleteMemo">
                             <h4><strong>{memo.title}</strong></h4>
@@ -233,7 +224,7 @@
                                             </div>
                                             <div className="form-group required">
                                                 <div className="col-sm-offset-2 col-sm-10">                                                    
-                                                    <button className="btn btn-success btn-xs-block btn-sm-block" onClick={this.addMemo} >Add Note</button>
+                                                    <button className="btn btn-success btn-xs-block btn-sm-block" onClick={this.addMemo} >Submit</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -269,12 +260,12 @@
                         </div>
                         <div className="container-fluid">
                             <div className="row">
-                                { this.state.ideas.map(this.renderMemo) }                               
+                                { this.state.ideas.map(this.renderIdea) }                               
                             </div>
                         </div>
                         <br />
                         <footer className="container-fluid text-center">
-                            <p><strong>Author:</strong> <a target="_blank" href="https://facebook.com/asananddevsingh">Anand Dev Singh</a> | <a href="mailto:ananddevsingh.aiet@gmail.com">Email</a> | <a target="_blank" href="https://github.com/asananddevsingh/Memo-Board-With-Bootstrap">Source code</a></p>
+                            <p><strong>Author:</strong> <a target="_blank" href="https://facebook.com/asananddevsingh">Anand Dev Singh</a> | <a href="mailto:ananddevsingh.aiet@gmail.com">Email</a> | <a target="_blank" href="https://github.com/asananddevsingh/idea-board-With-Bootstrap">Source code</a></p>
                         </footer>
                     </div>
                 );
