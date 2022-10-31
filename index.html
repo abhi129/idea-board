@@ -19,7 +19,7 @@
 <div id="IdeaBoardContainer"></div>
     <script type="text/babel">
 
-        var Memo = React.createClass({            
+        let Memo = React.createClass({            
             getInitialState: function(){
               return ({
                   editing: false,
@@ -76,12 +76,8 @@
                 this.setState({editing: true})
             },
             remove: function(){
-                /*
-                    We can make a service call from here to update the memo.
-                    For the time being, I'm populating an alert message.
-                */
-                this.props.removeMemo(this.props.index);
-                //alert('Trigger a delete request to the backend REST service.');
+                //Remove the idea
+                this.props.removeIdea(this.props.index);
             },
             save: function(){
                 this.props.updateMemo(this.refs.newIdeaTitle.value, this.refs.newIdeaBody.value, this.props.index);
@@ -163,7 +159,7 @@
                         body: this.refs.addMemoBody.value
                 }
             },
-            removeMemo: function(i){
+            removeIdea: function(i){
                 /*
                     We can make a service call from here to remove the memo. For the time being, I'm removing it from the data array.
                 */
@@ -197,7 +193,7 @@
             renderMemo: function(memo, i){
                 return (
                     <Memo key={i} index={i} updateMemo={this.updateMemo}
-                       removeMemo={this.removeMemo} title={memo.title} body={memo.body} >
+                       removeIdea={this.removeIdea} title={memo.title} body={memo.body} >
                         <div className="panel-heading" ref="deleteMemo">
                             <h4><strong>{memo.title}</strong></h4>
                         </div>
